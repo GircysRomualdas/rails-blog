@@ -10,6 +10,9 @@ class BlogPostsController < ApplicationController
         end
 
         @pagy, @blog_posts = pagy(@blog_posts)
+
+    rescue Pagy::OverflowError
+        redirect_to root_path(page: 1)
     end
 
     def show 
@@ -48,7 +51,7 @@ class BlogPostsController < ApplicationController
     private
 
     def blog_post_params
-        params.require(:blog_post).permit(:title, :content, :published_at)
+        params.require(:blog_post).permit(:title, :content, :cover_image, :published_at)
     end
 
     def set_blog_post
